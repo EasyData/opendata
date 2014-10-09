@@ -1,0 +1,8 @@
+--allow-all-external
+--allow-unverified jsonpath
+
+scrapy
+service_identity
+jsonpath
+toolz
+
