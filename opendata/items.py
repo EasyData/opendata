@@ -18,12 +18,14 @@ class AlexaItem(OpenDataItem):
 
 class KoubeiItem(OpenDataItem):
 
-    url = Field()
-    name = Field()
-    domain = Field()
-    rating = Field()
+    url      = Field()
+    name     = Field()
+    domain   = Field()
+    rating   = Field()
     category = Field()
-    tags = Field()
+    tags     = Field()
+    comments = Field()
+    koubei   = Field()
 
 
 class ChinazItem(OpenDataItem):

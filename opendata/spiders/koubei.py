@@ -54,10 +54,17 @@ class KoubeiSpider(Spider):
         sel = Selector(response)
         url = sel.xpath('//div[@class="pj-site-domain"]/a/@href').extract()[0]
         tags = sel.xpath('//a[contains(@class,"tag-item-link")]/text()[1]').re(ur'(\S+)[(]')
+        cmts = map(int, sel.xpath('//a[@data-praise!="all"]/span/text()').re(ur'\(([0-9]+)\)'))
         yield KoubeiItem(
             url=url,
             tags=tags,
-            **self.pick(['category', 'name', 'domain', 'rating'], info)
+            comments={
+                'all': sum(cmts),
+                'good': cmts[0],
+                'mid': cmts[1],
+                'bad': cmts[2],
+            },
+            **self.pick(['category', 'name', 'domain', 'rating', 'koubei'], info)
         )
 
     def make_ajax_request(self, cid, cname, page):
