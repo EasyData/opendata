@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import json
-from jsonpath import jsonpath
 from operator import itemgetter
 from scrapy.http import Request
 from scrapy.selector import Selector
@@ -31,22 +30,21 @@ class KoubeiSpider(Spider):
         cid, cname, page = itemgetter('cid', 'cname', 'page')(meta)
         obj = json.loads(response.body)
 
-        if jsonpath(obj, '$.status')[0]!=0:
+        if obj['status'] != 0:
             return
 
-        for i in jsonpath(obj, '$.data.page.result.*'):
+        for i in obj['data']['page']['result']:
             info = self.pick({
-                'jumpurl':'url',
-                'sitename':'name',
-                'showurl':'domain',
-                'praise':'rating',
-                'comtcount':'comment_num'
+                'jumpurl': 'koubei',
+                'sitename': 'name',
+                'showurl': 'domain',
+                'praise': 'rating',
             }, i)
             info['category'] = cname
-            yield Request(info['url'], meta={'info':info}, callback=self.parse_page)
+            yield Request(info['koubei'], meta={'info':info}, callback=self.parse_page)
 
         if page==1:
-            total = jsonpath(obj, '$.data.page.total')[0]
+            total = obj['data']['page']['total']
             for pg in xrange(2, total+1):
                 yield self.make_ajax_request(cid, cname, pg)
 
@@ -54,12 +52,12 @@ class KoubeiSpider(Spider):
 
         info = response.meta['info']
         sel = Selector(response)
-        homepage = sel.xpath('//div[@class="pj-site-domain"]/a/@href').extract()[0]
+        url = sel.xpath('//div[@class="pj-site-domain"]/a/@href').extract()[0]
         tags = sel.xpath('//a[contains(@class,"tag-item-link")]/text()[1]').re(ur'(\S+)[(]')
         yield KoubeiItem(
-            homepage=homepage,
+            url=url,
             tags=tags,
-            **self.pick(['url', 'category', 'name', 'domain', 'rating', 'comment_num'], info)
+            **self.pick(['category', 'name', 'domain', 'rating'], info)
         )
 
     def make_ajax_request(self, cid, cname, page):

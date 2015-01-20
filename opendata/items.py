@@ -22,8 +22,6 @@ class KoubeiItem(OpenDataItem):
     name = Field()
     domain = Field()
     rating = Field()
-    comment_num = Field()
-    homepage = Field()
     category = Field()
     tags = Field()
 
