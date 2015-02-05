@@ -35,7 +35,12 @@ class DianpingSpider(CrawlSpider):
         for url in sel.css('#cg-right .sites-tit>a::attr(href)').extract():
             url = urlparse.urljoin(self.start_urls[0], url)
             domain = os.path.basename(url)
-            yield self.cache.get(domain) or Request(url, meta={'categories': categories}, callback=self.parse_item)
+            item = self.cache.get(domain)
+            if item:
+                item['categories'] = categories
+                yield item
+            else:
+                yield Request(url, meta={'categories': categories}, callback=self.parse_item)
 
     def parse_item(self, response):
 
