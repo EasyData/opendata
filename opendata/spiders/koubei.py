@@ -36,10 +36,8 @@ class KoubeiSpider(Spider):
 
         for tag in obj['data']:
             ccid, ccname = itemgetter('cid', 'cname')(tag)
-            if ccname == u'全部':
-                continue
-            else:
-                yield self.make_sites_ajax_request(cid, cname, ccid, ccname, 1)
+            ccid = str(ccid)
+            yield self.make_sites_ajax_request(cid, cname, ccid, ccname, 1)
 
     def parse_sites_ajax(self, response):
 
