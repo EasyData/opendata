@@ -40,7 +40,7 @@ class DianpingSpider(CrawlSpider):
                 item['categories'] = categories
                 yield item
             else:
-                yield Request(url, meta={'categories': categories}, callback=self.parse_item)
+                yield Request(url, meta={'categories': categories}, callback=self.parse_item, dont_filter=True)
 
     def parse_item(self, response):
 
@@ -49,7 +49,7 @@ class DianpingSpider(CrawlSpider):
         url = sel.xpath('//h2[@class="site-name"]/a[1]/@href').extract()[0]
         rating = (sel.xpath('//div[@class="site-detail"]/span[@class="percent"]/em[contains(., "%")]/text()').extract() or ['0%'])[0].strip('%')
         cmt = sel.xpath('//div[@class="site-detail"]/span[@class="num"]/em/text()').extract()[0].strip('%')
-        tags = [tag.strip('()') for tag in sel.xpath('//a[@class="mark"]/text()[1]').extract()]
+        tags = [tag.strip('()') for tag in sel.xpath('//div[contains(@class, "impress-tag")]/a/text()[1]').extract()]
         domain = os.path.basename(response.url)
 
         item = DianpingItem(
