@@ -18,26 +18,26 @@ class AlexaItem(OpenDataItem):
 
 class KoubeiItem(OpenDataItem):
 
-    url      = Field()
-    name     = Field()
-    domain   = Field()
-    rating   = Field()
-    category = Field()
-    tags     = Field()
-    comments = Field()
-    koubei   = Field()
+    url        = Field()
+    name       = Field()
+    domain     = Field()
+    rating     = Field()
+    categories = Field()
+    tags       = Field()
+    comments   = Field()
+    koubei     = Field()
 
 
 class DianpingItem(OpenDataItem):
 
-    url      = Field()
-    name     = Field()
-    domain   = Field()
-    rating   = Field()
+    url        = Field()
+    name       = Field()
+    domain     = Field()
+    rating     = Field()
     categories = Field()
-    tags     = Field()
-    comments = Field()
-    dianping = Field()
+    tags       = Field()
+    comments   = Field()
+    dianping   = Field()
 
 
 class ChinazItem(OpenDataItem):
