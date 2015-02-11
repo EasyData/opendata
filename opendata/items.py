@@ -16,6 +16,20 @@ class AlexaItem(OpenDataItem):
     desc    = Field()
 
 
+class MywotItem(OpenDataItem):
+
+    rank      = Field()
+    name      = Field()
+    domain    = Field()
+    country   = Field()
+    desc      = Field()
+    trust     = Field()
+    safty     = Field()
+    mywot     = Field()
+    tags      = Field()
+    thumbnail = Field()
+
+
 class KoubeiItem(OpenDataItem):
 
     url        = Field()
